@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup</title>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+</head>
+
+<body>
+    <div class="popup">
+        <div class="popup-content">
+            <span class="close-btn" id="close-btn">&times;</span>
+            <section id="order" data-stellar-background-ratio="0.5">
+                <div class="container">
+                    <div class="row d-flex" style="padding-left: 200px;">
+                        <div class="makereservation p-4 px-md-5 pb-md-5">
+                            <div class="heading-section mb-5 text-center">
+                                <span class="subheading" style="z-index: 1;padding-right: 200px;">Order</span>
+                                <h2 class="mb-4" style="padding-right: 200px;">Your Cake</h2>
+                            </div>
+                            <form id="orderForm">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" id="name" class="form-control" placeholder="John Doe">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" id="email" class="form-control" placeholder="johndoe@gmail.com">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="address">Address</label>
+                                            <input type="text" id="address" class="form-control" placeholder="Your Address">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="phone">Phone</label>
+                                            <input type="text" id="phone" class="form-control" placeholder="Your Phone No.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="book_date">Date</label>
+                                            <input type="text" class="form-control" id="book_date" placeholder="Select a Date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="quantity">Quantity</label>
+                                            <div class="select-wrap one-third">
+                                                <div class="icon"><span class="ios-ios-arrow-down"></span></div>
+                                                <select name="quantity" id="quantity" class="form-control">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="cake_flavour">Cake Flavour</label>
+                                            <div class="select-wrap one-third">
+                                                <div class="icon"><span class="ios-ios-arrow-down"></span></div>
+                                                <select name="cake_flavour" id="cake_flavour" class="form-control">
+                                                    <!-- Options will be populated dynamically -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="cake_kg">Kg</label>
+                                            <div class="select-wrap one-third">
+                                                <div class="icon"><span class="ios-ios-arrow-down"></span></div>
+                                                <select name="cake_kg" id="cake_kg" class="form-control">
+                                                    <option value="0.5">0.5</option>
+                                                    <option value="1">1</option>
+                                                    <option value="1.5">1.5</option>
+                                                    <option value="2.5">2.5</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-group text-center" style="padding-right: 180px;">
+                                            <input type="submit" value="Order Your Cake" class="btn btn-primary py-3 px-5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var closeBtn = document.getElementById('close-btn');
+            closeBtn.addEventListener('click', function () {
+                window.location.href = 'menu.html';
+            });
+
+            // Function to get query parameter value by name
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Retrieve P_ID from URL
+            const productId = getQueryParam('P_ID');
+            console.log('Product ID:', productId);
+
+            // Retrieve user info from local storage
+            const userInfo = JSON.parse(localStorage.getItem('user'));
+            if (userInfo) {
+                document.getElementById('name').value = `${userInfo.FName} ${userInfo.LName}`;
+                document.getElementById('email').value = userInfo.email;
+            } else {
+                console.error('User info not found in local storage');
+            }
+
+            // Fetch cake flavors from the backend and populate the select dropdown
+            fetch('http://localhost:8000/products')
+                .then(response => response.json())
+                .then(data => {
+                    const cakeFlavourSelect = document.getElementById('cake_flavour');
+                    data.forEach(product => {
+                        const option = document.createElement('option');
+                        option.value = product.P_ID;
+                        option.textContent = product.P_Name;
+                        cakeFlavourSelect.appendChild(option);
+                    });
+
+                    // Select the option with the same P_ID as in the URL params
+                    if (productId) {
+                        cakeFlavourSelect.value = productId;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching cake flavors:', error);
+                });
+
+            // Initialize datepicker
+            $("#book_date").datepicker({
+                format: "yyyy-mm-dd", // Use the correct format here
+                autoclose: true,
+            });
+
+            // Handle form submission
+            document.getElementById('orderForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = {
+                    email: document.getElementById('email').value,
+                    address: document.getElementById('address').value,
+                    phone: document.getElementById('phone').value,
+                    date: document.getElementById('book_date').value,
+                    quantity: document.getElementById('quantity').value,
+                    p_id: productId,
+                    cake_kg: document.getElementById('cake_kg').value
+                };
+
+                fetch('http://localhost:8000/placeOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Order placed successfully:', data);
+                    // Redirect or show a success message
+                })
+                .catch(error => {
+                    console.error('Error placing order:', error);
+                });
+            });
+        });
+    </script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/jquery.timepicker.min.js"></script>
+</body>
+</html>

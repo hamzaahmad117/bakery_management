@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Menu</title>
+    <link rel="stylesheet" href="./menu.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <!-- menu section starts -->
+    <section class="ftco-section" id="menu">
+        <div class="container-fluid px-4">
+            <div class="row justify-content-center mb-5 pb-2">
+                <div class="col-md-7 text-center heading-section ">
+                    <span class="subheading">Order your Cake</span>
+                    <h2 class="mb-4">Our Menu</h2>
+                </div>
+            </div>
+
+            <div class="row" id="menu-container">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </section>
+    <!-- menu section ends -->
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:8000/products',
+                method: 'GET',
+                success: function (products) {
+                    const menuContainer = $('#menu-container');
+                    products.forEach(product => {
+                        const productHtml = `
+                            <div class="col-md-6 col-lg-4 menu-wrap">
+                                <div class="menus d-flex menu-item">
+                                    <div class="menu-img img" style="background-image: url(images/menu1.jpg);"></div>
+                                    <div class="text">
+                                        <div class="d-flex">
+                                            <div class="one-half">
+                                                <h3>${product.P_Name}</h3>
+                                            </div>
+                                            <div class="one-forth">
+                                                <span class="price">Rs${product.P_Price}</span>
+                                            </div>
+                                        </div>
+                                        <p>${product.P_Desc.split(', ').map(desc => `<span>${desc}</span>`).join(', ')}</p>
+                                        <button class="buy-btn" data-id="${product.P_ID}">Buy Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        menuContainer.append(productHtml);
+                    });
+
+                    $('.buy-btn').on('click', function () {
+                        const productId = $(this).data('id');
+                        window.location.href = `./popup.html?P_ID=${productId}`;
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching products:', error);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

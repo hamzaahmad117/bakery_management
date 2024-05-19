@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Popup Form Design</title>
+    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+</head>
+
+<body>
+    <div class="center">
+        <div class="container">
+            <label for="show" class="close-btn fas fa-times" id="close" title="close"></label>
+            <div class="text">Login Form</div>
+            <form action="#">
+                <div class="data">
+                    <label>Email Address</label>
+                    <input type="text" id="username" required />
+                </div>
+                <div class="data">
+                    <label>Password</label>
+                    <input type="password" id="password" required />
+                </div>
+                <div class="btn">
+                    <div class="inner"></div>
+                    <button type="submit" id="submit">Login</button>
+                </div>
+                <div class="signup-link">
+                    Not a member? <a href="#" id="signupBtn">Signup now</a>
+                </div>
+            </form>
+            <div id="user-info" style="display:none;">
+                <p>Welcome, <span id="user-name"></span>!</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    // LOGIN BUTTON SCRIPT
+
+    var closeBtn = document.getElementById('close');
+    closeBtn.addEventListener('click', function () {
+        window.location.href = 'index.html';
+    });
+
+    document.getElementById('submit').addEventListener('click', function (event) {
+        event.preventDefault();
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        // Send an HTTP POST request to the backend
+        fetch('http://localhost:8000/login', {
+            method: 'POST', // Change method to 'POST'
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({ username: username, password: password })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw new Error(err.message); });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle response from the backend
+                console.log(data);
+
+                // Store user information in local storage
+                localStorage.setItem('user', JSON.stringify({ FName: data.FName, LName: data.LName, email: username }));
+
+                // Redirect to a new page
+                window.location.href = 'index.html';
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    });
+
+    // SIGNUP BUTTON SCRIPT
+    var signup = document.getElementById('signupBtn');
+    signup.addEventListener('click', function () {
+        window.location.href = 'signup.html';
+    });
+
+</script>
