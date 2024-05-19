@@ -510,7 +510,7 @@ html {
   border: 1px solid #ff2377;
   background: linear-gradient(235deg,
       rgba(231, 111, 169, 0.741) 30%,
-      rgba(165, 77, 124, 0.763) 67%);
+      rgba(163, 77, 123, 0.763) 67%);
 }
 
 .menus:hover .text .one-forth .price {
@@ -965,4 +965,30 @@ html {
 
 .ftco-footer-social li .fa:hover {
   color: #000000;
+}
+
+/* menu css */
+.menu-item {
+  position: relative;
+  overflow: hidden;
+}
+
+/* .buy-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background-color: #a34d7bc3;
+
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+} */
+
+.menu-item:hover .buy-btn {
+  opacity: 1;
 }

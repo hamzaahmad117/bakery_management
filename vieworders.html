@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 90%;
+        }
+        table {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+        th, td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Your Orders</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Delivery Address</th>
+                        <th>Delivery Date</th>
+                        <th>Customer Phone</th>
+                        <th>Cake Weight</th>
+                        <th>Employee</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                    <!-- Orders will be populated here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center mt-4">
+            <button id="close-btn" class="btn btn-primary">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!user) {
+                window.location.href = 'loginPopUp.html';
+                return;
+            }
+
+            fetch(`http://localhost:8000/orders?email=${user.email}`)
+                .then(response => response.json())
+                .then(data => {
+                    const ordersTableBody = document.getElementById('orders-table-body');
+                    ordersTableBody.innerHTML = '';
+
+                    data.forEach(order => {
+                        const row = `
+                            <tr>
+                                <td>${order.Order_ID}</td>
+                                <td>${order.product_name}</td>
+                                <td>${order.Quantity}</td>
+                                <td>${order.delivery_address}</td>
+                                <td>${order.delivery_date}</td>
+                                <td>${order.customer_phone}</td>
+                                <td>${order.cake_weight}</td>
+                                <td>${order.employee_name}</td>
+                            </tr>
+                        `;
+                        ordersTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching orders:', error);
+                });
+
+            // Close button event listener
+            document.getElementById('close-btn').addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

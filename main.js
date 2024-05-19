@@ -9,12 +9,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var userInfoElement = document.getElementById('user-info');
     var loginBtnElement = document.getElementById('login-btn');
     var logoutBtnElement = document.getElementById('logout-btn');
+    var viewOrderElement = document.getElementById('order-view');
 
     // Check if 'user' item exists in local storage
     var user = localStorage.getItem('user');
     if (user) {
         user = JSON.parse(user);
       userInfoElement.innerHTML = '<span class="nav-link">Hello, ' + user.FName + '</span>';
+        viewOrderElement.style.display = 'block';
         loginBtnElement.style.display = 'none';
         logoutBtnElement.style.display = 'block';
     } else {

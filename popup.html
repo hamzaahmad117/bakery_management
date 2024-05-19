@@ -176,14 +176,28 @@
             document.getElementById('orderForm').addEventListener('submit', function(event) {
                 event.preventDefault();
 
+                // Validate form fields
+                const email = document.getElementById('email').value;
+                const address = document.getElementById('address').value;
+                const phone = document.getElementById('phone').value;
+                const date = document.getElementById('book_date').value;
+                const quantity = document.getElementById('quantity').value;
+                const cake_flavour = document.getElementById('cake_flavour').value;
+                const cake_kg = document.getElementById('cake_kg').value;
+
+                if (!email || !address || !phone || !date || !quantity || !cake_flavour || !cake_kg) {
+                    alert('All fields are required.');
+                    return;
+                }
+
                 const formData = {
-                    email: document.getElementById('email').value,
-                    address: document.getElementById('address').value,
-                    phone: document.getElementById('phone').value,
-                    date: document.getElementById('book_date').value,
-                    quantity: document.getElementById('quantity').value,
+                    email: email,
+                    address: address,
+                    phone: phone,
+                    date: date,
+                    quantity: quantity,
                     p_id: productId,
-                    cake_kg: document.getElementById('cake_kg').value
+                    cake_kg: cake_kg
                 };
 
                 fetch('http://localhost:8000/placeOrder', {
@@ -195,8 +209,8 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Order placed successfully:', data);
-                    // Redirect or show a success message
+                    alert('Order placed successfully');
+                    window.location.href = 'index.html';
                 })
                 .catch(error => {
                     console.error('Error placing order:', error);
