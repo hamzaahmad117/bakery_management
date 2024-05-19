@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var loginBtnElement = document.getElementById('login-btn');
     var logoutBtnElement = document.getElementById('logout-btn');
     var viewOrderElement = document.getElementById('order-view');
+    var orderCake = document.getElementById('order_cake');
 
     // Check if 'user' item exists in local storage
     var user = localStorage.getItem('user');
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         viewOrderElement.style.display = 'block';
         loginBtnElement.style.display = 'none';
         logoutBtnElement.style.display = 'block';
+        orderCake.style.display = 'block';
     } else {
         userInfoElement.innerHTML = '';
         loginBtnElement.style.display = 'block';

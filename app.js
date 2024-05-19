@@ -92,10 +92,9 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-
 app.get('/products', (req, res) => {
     console.log('products route called')
-    const query = 'SELECT P_ID, P_Name, P_Desc, P_Price FROM Product';
+    const query = 'SELECT P_ID, P_Name, P_Desc, P_Price, img_url FROM Product';
     connection.query(query, (error, results) => {
         if (error) {
             console.error('Error fetching products:', error);
@@ -158,41 +157,42 @@ app.post('/placeOrder', (req, res) => {
 });
 
 app.get('/orders', (req, res) => {
-  const email = req.query.email;
+    const email = req.query.email;
 
-  const getCustomerIdQuery = 'SELECT Cust_ID FROM Customer WHERE email = ?';
-  connection.query(getCustomerIdQuery, [email], (error, customerResults) => {
-      if (error) {
-          console.error('Error fetching customer ID:', error);
-          res.status(500).json({ message: 'Internal server error' });
-          return;
-      }
+    const getCustomerIdQuery = 'SELECT Cust_ID FROM Customer WHERE email = ?';
+    connection.query(getCustomerIdQuery, [email], (error, customerResults) => {
+        if (error) {
+            console.error('Error fetching customer ID:', error);
+            res.status(500).json({ message: 'Internal server error' });
+            return;
+        }
 
-      if (customerResults.length === 0) {
-          res.status(404).json({ message: 'Customer not found' });
-          return;
-      }
+        if (customerResults.length === 0) {
+            res.status(404).json({ message: 'Customer not found' });
+            return;
+        }
 
-      const custId = customerResults[0].Cust_ID;
+        const custId = customerResults[0].Cust_ID;
 
-      const getOrdersQuery = `
-          SELECT o.Order_ID, p.P_Name AS product_name, ob.Quantity, ob.delivery_address, 
-                 DATE_FORMAT(ob.delivery_date, '%Y-%m-%d') AS delivery_date, ob.customer_phone, 
-                 ob.cake_weight, CONCAT(e.FName, ' ', e.LName) AS employee_name
-          FROM OrderPlaced o
-          JOIN OrderBreakdown ob ON o.Order_ID = ob.O_ID
-          JOIN Product p ON ob.P_ID = p.P_ID
-          JOIN Employee e ON o.Emp_ID = e.Emp_ID
-          WHERE o.Cust_ID = ?
-      `;
-      connection.query(getOrdersQuery, [custId], (ordersError, ordersResults) => {
-          if (ordersError) {
-              console.error('Error fetching orders:', ordersError);
-              res.status(500).json({ message: 'Internal server error' });
-              return;
-          }
+        const getOrdersQuery = `
+            SELECT o.Order_ID, p.P_Name AS product_name, ob.Quantity, ob.delivery_address, 
+                   DATE_FORMAT(ob.delivery_date, '%Y-%m-%d') AS delivery_date, ob.customer_phone, 
+                   ob.cake_weight, CONCAT(e.FName, ' ', e.LName) AS employee_name
+            FROM OrderPlaced o
+            JOIN OrderBreakdown ob ON o.Order_ID = ob.O_ID
+            JOIN Product p ON ob.P_ID = p.P_ID
+            JOIN Employee e ON o.Emp_ID = e.Emp_ID
+            WHERE o.Cust_ID = ?
+        `;
+        connection.query(getOrdersQuery, [custId], (ordersError, ordersResults) => {
+            if (ordersError) {
+                console.error('Error fetching orders:', ordersError);
+                res.status(500).json({ message: 'Internal server error' });
+                return;
+            }
 
-          res.status(200).json(ordersResults);
-      });
-  });
+            res.status(200).json(ordersResults);
+        });
+    });
 });
+
